@@ -9,6 +9,7 @@ let lastMessage = null;
 wsserver.on("connection", (ws) => {
     clients.push(ws); // Keep track of connected clients
 
+    // Send the last message to the new client and send till it's confirmed
     const intervalId = setInterval(() => {
         if (lastMessage) {
           ws.send(JSON.stringify({ type: 'message', data: lastMessage }));

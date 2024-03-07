@@ -2,9 +2,12 @@ import React, { useState, useEffect, useRef } from 'react';
 
 function App() {
     const [input, setInput] = useState('');
+    //the web socket
     const ws = useRef(null);
+    // when a new connection is established, the client will receive the last message sent by the server : hasreceivedFirstMessage is a flag to enable that
     const hasReceivedFirstMessage = useRef(false);
 
+    //receive changes
     useEffect(() => {
       ws.current = new WebSocket('ws://localhost:8080');
       ws.current.onmessage = (event) => {
@@ -19,7 +22,7 @@ function App() {
         ws.current.close();
       };
     }, []);
-
+    //sending changes
     useEffect(() => {
         if (ws.current && ws.current.readyState === WebSocket.OPEN && input) {
           console.log("Sending message: ", input);  
